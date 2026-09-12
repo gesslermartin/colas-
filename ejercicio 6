@@ -1,0 +1,44 @@
+from queue_structure import Queue
+
+def mover_primer_nombre_A_al_fondo(cola: Queue) -> None:
+    if cola.is_empty():
+        print("La cola está vacía.")
+        return
+
+    tamano = cola.size()
+    nombre_objetivo = None
+    cola_temp = Queue()
+
+    # 1. Identificar el primer nombre con 'A'
+    for _ in range(tamano):
+        nombre = cola.dequeue()
+        if nombre_objetivo is None and nombre.upper().startswith('A'):
+            nombre_objetivo = nombre
+        cola_temp.enqueue(nombre)
+
+    if nombre_objetivo is None:
+        for _ in range(tamano):
+            cola.enqueue(cola_temp.dequeue())
+        print("No se encontró ningún nombre que comience con 'A'.")
+        return
+
+    # 2. Reconstruir omitiendo la primera aparición y colocándola al fondo
+    encontrado = False
+    for _ in range(tamano):
+        elem = cola_temp.dequeue()
+        if elem == nombre_objetivo and not encontrado:
+            encontrado = True
+        else:
+            cola.enqueue(elem)
+            
+    cola.enqueue(nombre_objetivo)
+
+# Pruebas
+if __name__ == "__main__":
+    q = Queue()
+    for n in ["Carlos", "Alejandro", "Beatriz", "Andrea"]:
+        q.enqueue(n)
+
+    print(f"Cola original: {q}")
+    mover_primer_nombre_A_al_fondo(q)
+    print(f"Resultado (Primer 'A' al fondo): {q}")
