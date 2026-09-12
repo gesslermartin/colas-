@@ -1,0 +1,39 @@
+from queue_structure import Queue
+
+def mover_menor_a_la_cima(cola: Queue) -> None:
+    if cola.is_empty():
+        print("La cola está vacía.")
+        return
+
+    tamano_original = cola.size()
+    min_val = cola.front()
+    cola_temp = Queue()
+
+    # 1. Buscar el menor elemento
+    for _ in range(tamano_original):
+        actual = cola.dequeue()
+        if actual < min_val:
+            min_val = actual
+        cola_temp.enqueue(actual)
+
+    # 2. Colocar el menor en la cima
+    cola.enqueue(min_val)
+
+    # 3. Encolar los demás elementos conservando su orden
+    encontrado = False
+    for _ in range(tamano_original):
+        elem = cola_temp.dequeue()
+        if elem == min_val and not encontrado:
+            encontrado = True
+        else:
+            cola.enqueue(elem)
+
+# Pruebas
+if __name__ == "__main__":
+    q = Queue()
+    for num in [34, 18, 5, 99, 5, 42]:
+        q.enqueue(num)
+
+    print(f"Cola original: {q}")
+    mover_menor_a_la_cima(q)
+    print(f"Resultado (Menor a la cima): {q}")
