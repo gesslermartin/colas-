@@ -1,0 +1,22 @@
+from queue_structure import Queue
+
+def imprimir_primer_elemento(cola: Queue) -> None:
+    if cola.is_empty():
+        print("La cola está vacía. No hay primer elemento.")
+        return
+    
+    primer_elemento = cola.front()
+    print(f"El primer elemento de la cola es: {primer_elemento}")
+
+
+if __name__ == "__main__":
+    q = Queue()
+    imprimir_primer_elemento(q)  # Prueba cola vacía
+    
+    q.enqueue(42)
+    q.enqueue(15)
+    q.enqueue(88)
+    
+    print(f"Cola antes de la operación: {q}")
+    imprimir_primer_elemento(q)
+    print(f"Cola después de la operación: {q}")
