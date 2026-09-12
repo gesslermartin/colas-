@@ -1,0 +1,44 @@
+from queue_structure import Queue
+
+def mover_primer_nombre_A_a_cima(cola: Queue) -> None:
+    if cola.is_empty():
+        print("La cola está vacía.")
+        return
+
+    tamano = cola.size()
+    nombre_objetivo = None
+    cola_temp = Queue()
+
+    # 1. Buscar la primera coincidencia
+    for _ in range(tamano):
+        nombre = cola.dequeue()
+        if nombre_objetivo is None and nombre.upper().startswith('A'):
+            nombre_objetivo = nombre
+        cola_temp.enqueue(nombre)
+
+    if nombre_objetivo is None:
+        # Restaurar la cola sin cambios si no hay nombres con 'A'
+        for _ in range(tamano):
+            cola.enqueue(cola_temp.dequeue())
+        print("No se encontró ningún nombre que comience con 'A'.")
+        return
+
+    # 2. Reconstruir con el nombre encontrado en la cima
+    cola.enqueue(nombre_objetivo)
+    encontrado = False
+    for _ in range(tamano):
+        elem = cola_temp.dequeue()
+        if elem == nombre_objetivo and not encontrado:
+            encontrado = True
+        else:
+            cola.enqueue(elem)
+
+# Pruebas
+if __name__ == "__main__":
+    q = Queue()
+    for n in ["Carlos", "Beatriz", "Ana", "Alberto", "Diana"]:
+        q.enqueue(n)
+
+    print(f"Cola original: {q}")
+    mover_primer_nombre_A_a_cima(q)
+    print(f"Resultado (Primer 'A' a la cima): {q}")
