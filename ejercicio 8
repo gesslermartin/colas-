@@ -1,0 +1,29 @@
+from queue_structure import Queue
+
+def obtener_cola_sin_ceros(cola: Queue) -> Queue:
+    if cola.is_empty():
+        print("La cola está vacía.")
+        return Queue()
+
+    cola_sin_ceros = Queue()
+    tamano = cola.size()
+
+    # Iterar restaurando la cola original en el proceso
+    for _ in range(tamano):
+        elem = cola.dequeue()
+        if elem != 0:
+            cola_sin_ceros.enqueue(elem)
+        cola.enqueue(elem)  # Mantiene la cola original intacta
+
+    return cola_sin_ceros
+
+# Pruebas
+if __name__ == "__main__":
+    q = Queue()
+    for val in [0, 5, 0, 12, 0, 8, 9]:
+        q.enqueue(val)
+
+    print(f"Cola original antes: {q}")
+    resultado = obtener_cola_sin_ceros(q)
+    print(f"Nueva cola (Sin ceros): {resultado}")
+    print(f"Cola original preservada: {q}")
