@@ -1,0 +1,32 @@
+import math
+from queue_structure import Queue
+
+def generar_cola_raices_cuadradas(cola: Queue) -> Queue:
+    if cola.is_empty():
+        print("La cola está vacía.")
+        return Queue()
+
+    cola_raices = Queue()
+    tamano = cola.size()
+
+    for _ in range(tamano):
+        val = cola.dequeue()
+        if val < 0:
+            raise ValueError(f"No se puede calcular raíz cuadrada de un número negativo ({val}).")
+        
+        raiz = math.sqrt(val)
+        cola_raices.enqueue(round(raiz, 2))  # Redondeado a 2 decimales para legibilidad
+        cola.enqueue(val)  # Restaura el estado original
+
+    return cola_raices
+
+# Pruebas
+if __name__ == "__main__":
+    q = Queue()
+    for val in [4, 16, 25, 81, 100]:
+        q.enqueue(val)
+
+    print(f"Cola original: {q}")
+    cola_resultante = generar_cola_raices_cuadradas(q)
+    print(f"Cola de raíces cuadradas: {cola_resultante}")
+    print(f"Cola original preservada: {q}")
