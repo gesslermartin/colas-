@@ -1,0 +1,39 @@
+from queue_structure import Queue
+
+def mover_mayor_al_fondo(cola: Queue) -> None:
+    if cola.is_empty():
+        print("La cola está vacía.")
+        return
+
+    # 1. Encontrar el valor máximo
+    tamano_original = cola.size()
+    max_val = cola.front()
+    cola_temp = Queue()
+
+    for _ in range(tamano_original):
+        actual = cola.dequeue()
+        if actual > max_val:
+            max_val = actual
+        cola_temp.enqueue(actual)
+
+    # 2. Reconstruir la cola dejando la primera aparición del máximo para el final
+    encontrado = False
+    for _ in range(tamano_original):
+        elem = cola_temp.dequeue()
+        if elem == max_val and not encontrado:
+            encontrado = True  # Omitimos insertarlo ahora
+        else:
+            cola.enqueue(elem)
+    
+    # Insertar el mayor al fondo
+    cola.enqueue(max_val)
+
+# Pruebas
+if __name__ == "__main__":
+    q = Queue()
+    for num in [12, 45, 7, 89, 23, 89]:
+        q.enqueue(num)
+        
+    print(f"Cola original: {q}")
+    mover_mayor_al_fondo(q)
+    print(f"Resultado (Mayor al fondo): {q}")
