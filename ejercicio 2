@@ -1,0 +1,16 @@
+from queue_structure import Queue
+
+def imprimir_cantidad_elementos(cola: Queue) -> None:
+    print(f"La cantidad de elementos en la cola es: {cola.size()}")
+
+# Pruebas
+if __name__ == "__main__":
+    q = Queue()
+    imprimir_cantidad_elementos(q)
+    
+    q.enqueue("Proceso 1")
+    q.enqueue("Proceso 2")
+    q.enqueue("Proceso 3")
+    
+    print(f"Estado de la cola: {q}")
+    imprimir_cantidad_elementos(q)
